@@ -1,4 +1,50 @@
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 export default function Signup() {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [samePass, setSamePass] = useState(false);
+  const router = useRouter();
+  const handleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUploading(true);
+    try {
+      const fullname = e.target[0].value;
+      const email = e.target[1].value;
+      const password = e.target[2].value;
+
+      const avatar = `<span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-300">
+        <span className="font-medium leading-none text-white">${fullname
+          .slice(0, 2)
+          .toUpperCase()}</span>
+      </span>`;
+      if (password === e.target[3].value) {
+        try {
+          const res = await fetch("/api/auth/register", {
+            method: "POST",
+            body: JSON.stringify({
+              avatar,
+              fullname,
+              email,
+              password,
+            }),
+          });
+          res.status === 201 &&
+            router.push("/login?success=Account has been created");
+        } catch (err) {
+          setError(err);
+          console.log(err);
+        }
+      } else setSamePass(true);
+    } catch (err) {
+      console.log(err);
+      setUploading(false);
+    }
+  };
   return (
     <>
       <div className="flex h-screen flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-r from-red-50 to-green-50">
@@ -24,7 +70,19 @@ export default function Signup() {
               Connect, organize, and get things done with email and calendar
               from Outlook.com.
             </div>
-            <form className="space-y-6 mt-4" action="#" method="POST">
+            <form className="space-y-6 mt-4" onSubmit={handleSubmit}>
+              <div>
+                <div className="mt-2">
+                  <input
+                    id="fullname"
+                    type="text"
+                    autoComplete="email"
+                    required
+                    className="block w-full rounded-md py-1.5 px-1.5 text-gray-900  placeholder:text-gray-500  sm:text-sm sm:leading-6 border-b-2 shadow-none"
+                    placeholder="Full Name"
+                  />
+                </div>
+              </div>
               <div>
                 <div className="mt-2">
                   <input
@@ -44,7 +102,7 @@ export default function Signup() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={isShowPassword ? "text" : "password"}
                     autoComplete="current-password"
                     required
                     className="block w-full rounded-md py-1.5 px-1.5 text-gray-900  placeholder:text-gray-500  sm:text-sm sm:leading-6 border-b-2 shadow-none"
@@ -57,7 +115,7 @@ export default function Signup() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={isShowPassword ? "text" : "password"}
                     autoComplete="current-password"
                     required
                     className="block w-full rounded-md py-1.5 px-1.5 text-gray-900  placeholder:text-gray-500  sm:text-sm sm:leading-6 border-b-2 shadow-none"
@@ -72,6 +130,9 @@ export default function Signup() {
                     name="remember-me"
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    onChange={() => {
+                      handleShowPassword();
+                    }}
                   />
                   <label
                     htmlFor="remember-me"
@@ -86,6 +147,11 @@ export default function Signup() {
                   Get a new email address
                 </p>
               </div>
+              {samePass && (
+                <p className="text-red-500 font-medium text-sm py-1">
+                  Password is not matched!
+                </p>
+              )}
 
               <div className="flex justify-end">
                 <button

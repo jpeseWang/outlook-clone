@@ -1,7 +1,37 @@
 "use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession, signIn } from "next-auth/react";
+import LoadingComponent from "@/app/loading";
 export default function Login() {
+  const [loadingSpin, setLoadingSpin] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
+  const session = useSession();
+  if (session.status === "loading") {
+    return <LoadingComponent />;
+  }
+
+  if (session.status === "authenticated") {
+    router?.push("/office/mail");
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoadingSpin(true);
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+      });
+
+      setLoadingSpin(false);
+    } catch (error) {
+      console.error("Sign-in error:", error);
+      setLoadingSpin(false);
+    }
+  };
   return (
     <>
       <div className="flex h-screen flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-r from-red-50 to-green-50">
@@ -22,9 +52,11 @@ export default function Login() {
               src="https://logincdn.msftauth.net/shared/1.0/content/images/microsoft_logo_564db913a7fa0ca42727161c6d031bef.svg"
               alt="Microsoft"
             />
-            <div className="mt-4 text-2xl font-bold">Sign in</div>
+            <div className="mt-4 text-2xl font-bold">
+              {loadingSpin && <>Loading...</>}Sign in
+            </div>
             <div className="text-sm">to continue to Outlook</div>
-            <form className="space-y-6 mt-4" action="#" method="POST">
+            <form className="space-y-6 mt-4" onSubmit={handleSubmit}>
               <div>
                 <div className="mt-2">
                   <input
@@ -52,6 +84,7 @@ export default function Login() {
                   />
                 </div>
               </div>
+              <p className="my-2 text-red-500 font-medium"> {error && error}</p>
               <div>
                 <p className=" block text-sm leading-6 text-gray-900 my-2">
                   No account?

@@ -2,56 +2,26 @@
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
-  ArrowPathIcon,
-  Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
   XMarkIcon,
+  MagnifyingGlassIcon,
+  VideoCameraIcon,
+  ChatBubbleLeftIcon,
+  BellIcon,
+  LightBulbIcon,
+  Cog8ToothIcon,
+  WindowIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   PhoneIcon,
   PlayCircleIcon,
+  EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import AvePointLogo from "@/assets/images/avepointHeading.jpg";
-import Heading from "@/assets/images/logo.png";
 import { classNames } from "@/utils/classNames";
-import Image from "next/image";
-const products = [
-  {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
+import { useRouter } from "next/navigation";
+
 const callsToAction = [
   { name: "Watch demo", href: "#", icon: PlayCircleIcon },
   { name: "Contact sales", href: "#", icon: PhoneIcon },
@@ -66,32 +36,35 @@ const company = [
 
 export default function NavMenu() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const router = useRouter();
+  const session = useSession();
+  console.log(session);
   return (
     <>
       <header className="bg-[#4D5966] z-10">
         <nav
-          className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+          className="mx-auto flex max-w-8xl items-center justify-between lg:px-8"
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
             <div className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <a
-                id="uhfLogo"
-                href="https://www.microsoft.com"
-                aria-label="Microsoft"
-                className="overflow-x-visible"
-              >
-                <img
-                  alt=""
-                  src="https://images.glints.com/unsafe/glints-dashboard.s3.amazonaws.com/company-banner-pic/0dfaa77244e3d0648f9eb56e6d6f9f23.png"
-                  className="overflow-x-visible h-10 w-auto"
-                />
-              </a>
+              <img
+                className="h-10 inline text-white pt-1"
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAA4VJREFUeF7tnD+PTVEUxdcu0FCIf53SJxDRiM6odD4ACVH7IioRhcQHEI2CD6BAMo1KIgqJggSFDsWWG3fkZTJ599z31hlrz1vT3v32WWf9Zt37/uycgP+kHAgpNRYDAxH7JzAQAxFzQEyOE2IgYg6IyXFCDETMATE5ToiBiDkgJscJMRAxB8TkOCEGIuaAmBwnxEDEHBCTQ09IZp4EcBvAZQC/AHwB8CQiXqy6933oeRzA23V1rrq/xddRgWTmLQD3ARzaQ9w2gK2I+DZHeJWec/a0rJYGJDOvAng+Iex9RJxrFV+lZ+t+WuqYQH4AONaw6N2IuNdQh8ws0bNlL601FCCZeRbAx8ZFX0fExanaKj2n9jH3OgvI8BB/2Lj494g4MVWbmXcAPJiqG6//t56N+prLWEBuAnjUuOrXiDg1VZuZJXpO7WPudRaQMwA+Ny7+MiIuTdVmZomeU/uYe50CZFg0M4fPG6cbBNyIiMcNdWV6tuyltYYJ5AKAV8DSWa/tiDjfKi4zS/Rs3U9LHQ3ImJKt4dMugKN7LP4MwPWI+NkibKcmM0v0nLOnZbVUICOUIwCuAbgCYHh4vwHwNCLerSo6M3v3/A3g07o6V93f4uvoQBiiNrmHgYjRNxADEXNATI4TYiBiDojJcUIMRMwBMTlOyEEHsmsg4TCAD+sOD1TpyWBLTUiVgYQeOhkwhh40IFUGEnroZMFgAykxkNBjcEIOSJWBhB46mTBoCclMDzmQyFCeIVUGEnroJHH414YFpMRAQo/BCUkg4y+FHnIg0KEkZARSYiChx+AEgQP3lrXTrcpAQg+dLCi0hCxA6T2QIDs4wYBCB8IQtck9DESMvoEYiJgDYnKcEAMRc0BMjhNiIGIOiMlxQg46kH04dUH2dAgGW2pCegwPVOnJgEH7xXD8ttcnORCo0BLSY3igSk8CB+7X7z2GB6r0ZMKg3bI85MDDQrll9RgeqNKTh+JvJxYQDzmQyFCAjO+yPORAgMIE4iEHJSBjSkqcuuAhB+5JDpRTF3adDkHpSQgI56HOEOIexHdZNpPnAO2hzpO02Z0MRIy/gRiImANicpwQAxFzQEyOE2IgYg6IyXFCDETMATE5ToiBiDkgJscJMRAxB8TkOCEGIuaAmBwnxEDEHBCT44QYiJgDYnKcEAMRc0BMjhNiIGIOiMlxQgxEzAExOU6IGJA/LeFIg3RGC4YAAAAASUVORK5CYII="
+              />
+              <img
+                className="inline h-12"
+                src="https://res-console.cloudinary.com/dnlz6urqe/thumbnails/v1/image/upload/v1694578982/YXZlX3czeXRsZQ==/as_is"
+              />
             </div>
 
-            <span className="font-semibold text-lg hover:underline cursor-pointer decoration-2 text-white">
+            <span
+              className="font-semibold text-lg cursor-pointer text-white pt-3 pl-6 sm:pl-9"
+              onClick={() => {
+                router.push("/");
+              }}
+            >
               Outlook
             </span>
           </div>
@@ -103,127 +76,58 @@ export default function NavMenu() {
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+              <EllipsisHorizontalIcon
+                className="h-6 w-6 text-white"
+                aria-hidden="true"
+              />
             </button>
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-500">
+              <span className="font-medium leading-none text-white">TW</span>
+            </span>
           </div>
-          <Popover.Group className="hidden lg:flex lg:gap-x-12">
-            <Popover className="relative">
-              <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                Product
-                <ChevronDownIcon
-                  className="h-5 w-5 flex-none text-gray-400"
-                  aria-hidden="true"
-                />
-              </Popover.Button>
-
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                  <div className="p-4">
-                    {products.map((item) => (
-                      <div
-                        key={item.name}
-                        className="group relative flex gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
-                      >
-                        <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                          <item.icon
-                            className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <div className="flex-auto">
-                          <a
-                            href={item.href}
-                            className="block font-semibold text-gray-900"
-                          >
-                            {item.name}
-                            <span className="absolute inset-0" />
-                          </a>
-                          <p className="mt-1 text-gray-600">
-                            {item.description}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                    {callsToAction.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
-                      >
-                        <item.icon
-                          className="h-5 w-5 flex-none text-gray-400"
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </a>
-                    ))}
-                  </div>
-                </Popover.Panel>
-              </Transition>
-            </Popover>
-
-            <a
-              href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Features
+          <Popover.Group className="hidden lg:flex lg:gap-x-6 relative pl-2">
+            <MagnifyingGlassIcon className="h-5 w-5 absolute text-gray-700 pt-1" />
+            <input
+              type="text"
+              className="inline pl-6 rounded placeholder:font-light placeholder:text-gray-800 placeholder:text-sm px-10"
+              placeholder="Search"
+            />
+            <VideoCameraIcon className="h-6 w-6 text-white" />
+            <a href="#" className="text-sm font-semibold leading-6 text-white">
+              Team call
             </a>
-            <a
-              href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Marketplace
-            </a>
+            <ChatBubbleLeftIcon className="h-6 w-6 text-white" />
+            <WindowIcon className="h-6 w-6 text-white" />
 
-            <Popover className="relative">
-              <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                Company
-                <ChevronDownIcon
-                  className="h-5 w-5 flex-none text-gray-400"
-                  aria-hidden="true"
-                />
-              </Popover.Button>
-
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-gray-900/5">
-                  {company.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="block rounded-lg px-3 py-2 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </Popover.Panel>
-              </Transition>
-            </Popover>
+            <BellIcon className="h-6 w-6 text-white" />
+            <Cog8ToothIcon className="h-6 w-6 text-white" />
+            <LightBulbIcon className="h-6 w-6 text-white" />
           </Popover.Group>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link
-              href="/login"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+            {session.status === "authenticated" ? (
+              <>
+                {" "}
+                <div
+                  className="px-3 py-2 bg-red-200 rounded-full"
+                  dangerouslySetInnerHTML={{ __html: session.data.avatar }}
+                />{" "}
+                <span
+                  className="pt-2 py-2 font-semibold text-white px-2 cursor-pointer"
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  Sign out
+                </span>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="text-sm font-semibold leading-6 text-white"
+              >
+                Log in <span aria-hidden="true">&rarr;</span>
+              </Link>
+            )}
           </div>
         </nav>
         <Dialog
@@ -248,7 +152,7 @@ export default function NavMenu() {
               </a>
               <button
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                className="-m-2.5 rounded-md p-2.5 text-white"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
@@ -261,7 +165,7 @@ export default function NavMenu() {
                   <Disclosure as="div" className="-mx-3">
                     {({ open }) => (
                       <>
-                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-white hover:bg-gray-50">
                           Product
                           <ChevronDownIcon
                             className={classNames(
@@ -277,7 +181,7 @@ export default function NavMenu() {
                               key={item.name}
                               as="a"
                               href={item.href}
-                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white hover:bg-gray-50"
                             >
                               {item.name}
                             </Disclosure.Button>
@@ -289,13 +193,13 @@ export default function NavMenu() {
 
                   <a
                     href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50"
                   >
                     Features
                   </a>
                   <a
                     href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-50"
                   >
                     Marketplace
                   </a>
@@ -303,7 +207,7 @@ export default function NavMenu() {
                   <Disclosure as="div" className="-mx-3">
                     {({ open }) => (
                       <>
-                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-white hover:bg-gray-50">
                           Company
                           <ChevronDownIcon
                             className={classNames(
@@ -319,7 +223,7 @@ export default function NavMenu() {
                               key={item.name}
                               as="a"
                               href={item.href}
-                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white hover:bg-gray-50"
                             >
                               {item.name}
                             </Disclosure.Button>
@@ -332,7 +236,7 @@ export default function NavMenu() {
                 <div className="py-6">
                   <Link
                     href="/login"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-50"
                   >
                     Log in
                   </Link>

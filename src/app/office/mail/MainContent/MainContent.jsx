@@ -1,6 +1,9 @@
 import NavPanel from "./NavPanel/NavPanel";
 import InboxMail from "./Inbox/InboxMail";
-import CreateOrReadMail from "./CreateOrReadMail/CreateOrReadMail";
+import CreateEmail from "./CreateOrReadMail/CreateEmail";
+import ViewEmail from "./CreateOrReadMail/ViewEmail/[id]/page";
+import NotSelected from "./CreateOrReadMail/NotSelected";
+
 export default function MainContent() {
   return (
     <>
@@ -12,7 +15,7 @@ export default function MainContent() {
           <InboxMail />
         </div>
         <div className="col-span-1 md:col-span-2">
-          <CreateOrReadMail />
+          <CreateEmail />
         </div>
       </div>
     </>

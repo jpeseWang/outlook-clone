@@ -1,4 +1,4 @@
-export default function CreateOrReadMail() {
+export default function NotSelected() {
   return (
     <div className="flex flex-col items-center justify-center h-screen -mt-16">
       <img

@@ -1,57 +1,117 @@
+import { StarIcon } from "@heroicons/react/20/solid";
+import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import LoadingComponent from "@/app/loading";
+const posts = [
+  {
+    id: 1,
+    title: "Boost your conversion rate",
+    href: "#",
+    description:
+      "Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel iusto corrupti dicta laboris incididunt.",
+    date: "Mar 16, 2020",
+    datetime: "2020-03-16",
+    category: { title: "Marketing", href: "#" },
+    author: {
+      name: "Michael Foster",
+      role: "Co-Founder / CTO",
+      href: "#",
+      imageUrl:
+        "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+  },
+];
 export default function InboxMail() {
+  const session = useSession();
+
+  const router = useRouter();
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+  const { data, mutate, error, isLoading } = useSWR(
+    `/api/inbox?username=${session?.data?.email}`,
+    fetcher
+  );
+
+  if (session.status === "loading") {
+    return <LoadingComponent />;
+  }
   return (
-    <main role="main" className="w-full flex-grow pt-1 px-3 ring-1 rounded">
-      <h1 className="text-3xl md:text-5xl mb-4 font-extrabold" id="home">
-        The Holy Grail Layout
-      </h1>
-      <p className="py-2">
-        Are you in search of this? In terms of Web design, that has 3 columns.
-        It is commonly desired and implemented, but for many years, the various
-        ways in which it could be implemented with available technologies all
-        had drawbacks. Because of this, finding an optimal implementation was
-        likened to searching for the elusive Holy Grail.
-      </p>
-      <p className="py-2">
-        As of 2021, the Holy Grail layout is implemented using CSS Flexbox or
-        CSS Grid display. For this example, wre using the{" "}
-        <a className="text-indigo-600" href="https://tailwindcss.com/">
-          Tailwind CSS
-        </a>{" "}
-        utility framework. As part of its default classes, Tailwind includes{" "}
-        <a
-          className="text-indigo-600"
-          href="https://tailwindcss.com/docs/flex-direction"
+    <>
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <main
+          role="main"
+          className="w-full flex-grow pt-1 px-3 ring-1 rounded ring-gray-200 "
         >
-          Flexbox classes
-        </a>{" "}
-        which make this implementation possible. The holy grail example is also
-        responsive so that the layout stacks vertically on smaller mobile
-        screens.
-      </p>
-      <p className="py-2">
-        Many web pages require a layout with multiple (often three) columns,
-        with the main page content in one column (often the center), and
-        supplementary content such as menus and advertisements in the other
-        columns (sidebars). These columns commonly require separate backgrounds,
-        with borders between them, and should appear to be the same height no
-        matter which column has the tallest content. A common requirement is
-        that the sidebars have a fixed width, with the center column adjusting
-        in size to fill the window (fluid or liquid layout). Another requirement
-        is that, when a page does not contain enough content to fill the screen,
-        the footer should drop to the bottom of the browser window instead of
-        leaving blank space underneath.
-      </p>
-      <div className="flex p-3 bg-indigo-600 rounded text-white hidden md:flex">
-        <span className="flex-shrink overflow-hidden whitespace-nowrap">
-          &lt;--------
-        </span>
-        <div className="flex-grow flex-shrink-0 overflow-ellipsis text-center">
-          This center column is so it grows in width as needed!
-        </div>
-        <span className="flex-shrink overflow-hidden whitespace-nowrap">
-          --------&gt;
-        </span>
-      </div>
-    </main>
+          <div className="bg-white py-6 ">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl ">
+                <p className="my-2 text-xl leading-8 text-gray-600 font-semibold">
+                  Inbox <StarIcon className="h-6 w-6 inline pb-1 text-black" />
+                </p>
+                <div className=" border-t border-gray-200 pt-4">
+                  {data?.map((post) => (
+                    <article
+                      key={post.id}
+                      className="flex max-w-xl flex-col items-start justify-between py-4 border-b overflow-y-auto"
+                    >
+                      <div className="flex items-center gap-x-4 text-xs">
+                        <time
+                          dateTime={post.datetime}
+                          className="text-gray-500"
+                        >
+                          {post.date}
+                        </time>
+                        <a
+                          href={post.category}
+                          className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                        >
+                          Mail
+                        </a>
+                      </div>
+
+                      <div className="relative mt-4 flex  gap-x-4">
+                        <img
+                          src="https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cmFuZG9tfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
+                          alt=""
+                          className="h-12 w-12 rounded-full bg-gray-50"
+                        />
+                        {/* <div
+                          className="h-12 w-12 bg-red-200 rounded-full"
+                          dangerouslySetInnerHTML={{
+                            __html: post.senderAvatar,
+                          }}
+                        /> */}
+                        <div className="text-sm leading-6">
+                          <p className="font-semibold text-gray-900">
+                            <p className="font-semibold text-gray-900">
+                              <a href={post.authorID}>
+                                <span className="absolute inset-0" />
+                                {post.authorFullname}
+                              </a>
+                            </p>
+                            <h3 className=" text-lg font-semibold leading-6 text-[#EF3E2D] group-hover:text-gray-600">
+                              <a href={post.href}>
+                                <span className="absolute inset-0" />
+                                {post.subject}
+                              </a>
+                            </h3>
+                            <p className="mt-1 line-clamp-3 text-sm leading-6 text-gray-600 font-normal">
+                              {data && post.content.slice(0, 140)}...
+                            </p>
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      )}
+    </>
   );
 }
