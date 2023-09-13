@@ -1,6 +1,6 @@
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "react-hot-toast";
-
+import Navbar from "@/components/Navbar/Navbar";
 import "./globals.css";
 
 export const metadata = {
@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           <Toaster />
-
+          <Navbar />
           {children}
         </AuthProvider>
       </body>
