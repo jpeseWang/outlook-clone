@@ -69,7 +69,7 @@ export default function SidePanel() {
         </div>
 
         <div className="pl-12 cursor-pointer">
-          <div className="sticky top-0 z-40 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-[#FAFAFA] px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+          <div className="sticky top-0 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-[#FAFAFA] px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             {/* Separator */}
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             <div
@@ -86,7 +86,7 @@ export default function SidePanel() {
               </div>
             </div>
           </div>
-          <div className="sticky top-10 z-40 flex h-14 items-center gap-x-4 border-b border-gray-200 bg-white shadow-xl sm:gap-x-6 sm:px-6 lg:px-8 w-full">
+          <div className="sticky top-10  flex h-14 items-center gap-x-4 border-b border-gray-200 bg-white shadow-xl sm:gap-x-6 sm:px-6 lg:px-8 w-full">
             <PaddleContainer />
           </div>
 

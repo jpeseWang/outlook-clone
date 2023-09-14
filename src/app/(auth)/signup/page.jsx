@@ -1,14 +1,21 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { randomColor } from "@/utils/randomColor";
 export default function Signup() {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [samePass, setSamePass] = useState(false);
   const router = useRouter();
+  const randomBgColor = randomColor();
+
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUploading(true);
@@ -16,12 +23,7 @@ export default function Signup() {
       const fullname = e.target[0].value;
       const email = e.target[1].value;
       const password = e.target[2].value;
-
-      const avatar = `<span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-orange-300">
-        <span className="font-medium leading-none text-white">${fullname
-          .slice(0, 2)
-          .toUpperCase()}</span>
-      </span>`;
+      const avatar = randomBgColor;
       if (password === e.target[3].value) {
         try {
           const res = await fetch("/api/auth/register", {
@@ -33,6 +35,7 @@ export default function Signup() {
               password,
             }),
           });
+          toast.success("Create account successfully");
           res.status === 201 &&
             router.push("/login?success=Account has been created");
         } catch (err) {
@@ -45,6 +48,7 @@ export default function Signup() {
       setUploading(false);
     }
   };
+
   return (
     <>
       <div className="flex h-screen flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-r from-red-50 to-green-50">
@@ -146,6 +150,18 @@ export default function Signup() {
                 <p className="cursor-pointer block text-sm  text-[#0067b8] hover:underline decoration-black">
                   Get a new email address
                 </p>
+                <p className=" block text-sm leading-6 text-gray-900 my-2">
+                  Already have account?
+                  <span
+                    className="text-[#0067b8] cursor-pointer hover:underline decoration-black"
+                    onClick={() => {
+                      router.push("/login");
+                    }}
+                  >
+                    {" "}
+                    Get access!
+                  </span>
+                </p>
               </div>
               {samePass && (
                 <p className="text-red-500 font-medium text-sm py-1">
@@ -158,6 +174,15 @@ export default function Signup() {
                   type="submit"
                   className="flex justify-center w-1/3  bg-[#0067b8] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#0044b8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
+                  {uploading ? (
+                    <FontAwesomeIcon
+                      icon={faCircleNotch}
+                      spin
+                      className="text-white h-5 w-5 mr-2"
+                    />
+                  ) : (
+                    <></>
+                  )}
                   Sign up
                 </button>
               </div>

@@ -7,7 +7,7 @@ import LoadingComponent from "@/app/loading";
 export default function ViewEmail({ params }) {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, mutate, error, isLoading } = useSWR(
-    `/api/inbox/${params.id}`,
+    `/api/inbox/${params}`,
     fetcher
   );
   return (
@@ -25,35 +25,22 @@ export default function ViewEmail({ params }) {
               />
               <div className="text-sm leading-6">
                 <div className="font-semibold text-gray-900">
-                  Brenna Goyette
+                  {data.senderFullname}
                 </div>
-                <div className="text-gray-600">@brenna</div>
+                <div className="text-gray-600"> {data.sender}</div>
               </div>
             </figcaption>
             <p className="text-base font-semibold leading-7 text-indigo-600">
               Email
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              JavaScript for Beginners
+              {data.subject}
             </h1>
 
-            <div className="mt-10 max-w-2xl">
-              <p>
-                Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget
-                risus enim. Mattis mauris semper sed amet vitae sed turpis id.
-                Id dolor praesent donec est. Odio penatibus risus viverra tellus
-                varius sit neque erat velit. Faucibus commodo massa rhoncus,
-                volutpat. Dignissim sed eget risus enim. Mattis mauris semper
-                sed amet vitae sed turpis id.
-              </p>
-
-              <p className="mt-10">
-                Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget
-                risus enim. Mattis mauris semper sed amet vitae sed turpis id.
-                Id dolor praesent donec est. Odio penatibus risus viverra tellus
-                varius sit neque erat velit.
-              </p>
-            </div>
+            <div
+              className="mt-10 max-w-2xl"
+              dangerouslySetInnerHTML={{ __html: data.content }}
+            />
           </div>
         </div>
       )}

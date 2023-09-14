@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import LoadingComponent from "@/app/loading";
 import { CurrentTabContext } from "@/context/CurrentTabContext";
 
-export default function InboxMail() {
+export default function SentMail() {
   const session = useSession();
   const { updateCreateOrViewMailTab, updateEmailId } =
     useContext(CurrentTabContext);
@@ -41,7 +41,7 @@ export default function InboxMail() {
                 </span>
                 <div className=" border-t border-gray-200 pt-4">
                   {data
-                    ?.filter((p) => p.receiver === session.data.email)
+                    ?.filter((p) => p.sender === session.data.email)
                     .slice()
                     .reverse()
                     .map((post) => (

@@ -1,6 +1,5 @@
 "use client";
-import Link from "next/link";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -9,8 +8,10 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
+import { CurrentTabContext } from "@/context/CurrentTabContext";
 export default function NavPanel() {
   const [isOpen, setIsOpen] = useState(false);
+  const { updateInboxTab } = useContext(CurrentTabContext);
   const toggleDropdown = (title) => {
     setIsOpen((prevOpen) => ({
       ...prevOpen,
@@ -93,7 +94,12 @@ export default function NavPanel() {
         <ul className="dropdown-menu pl-14 py-4 text-[#7A7A7A]">
           {item.children.map((child) => (
             <li key={child.title}>
-              <div className="py-2 hover:bg-gray-200 px-2 rounded">
+              <div
+                className="py-2 hover:bg-gray-200 px-2 rounded"
+                onClick={() => {
+                  updateInboxTab(child.title);
+                }}
+              >
                 {child.icon}
                 {child.title}
               </div>

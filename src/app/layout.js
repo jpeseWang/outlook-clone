@@ -1,7 +1,9 @@
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar/Navbar";
+import { CurrentTabProvider } from "@/context/CurrentTabContext";
 import "./globals.css";
+import "react-quill/dist/quill.snow.css";
 
 export const metadata = {
   title: "Create Next App",
@@ -13,9 +15,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AuthProvider>
-          <Toaster />
-          <Navbar />
-          {children}
+          <CurrentTabProvider>
+            <Toaster />
+            <Navbar />
+            {children}
+          </CurrentTabProvider>
         </AuthProvider>
       </body>
     </html>

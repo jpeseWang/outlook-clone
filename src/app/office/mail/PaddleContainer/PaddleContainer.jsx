@@ -1,4 +1,5 @@
-import { XMarkIcon } from "@heroicons/react/20/solid";
+"use client";
+import { useContext } from "react";
 import { EnvelopeIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import {
   ArrowUturnLeftIcon,
@@ -18,15 +19,20 @@ import {
   PrinterIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/24/outline";
+import { CurrentTabContext } from "@/context/CurrentTabContext";
 export default function PaddleContainer() {
+  const { updateCreateOrViewMailTab } = useContext(CurrentTabContext);
   return (
-    <div className="relative isolate flex items-center gap-x-6 overflow-hidden px-4 py-1 sm:px-2 sm:before:flex-1 ring-1 rounded ring-gray-200">
+    <div className="relative isolate flex items-center gap-x-6 overflow-hidden px-4 py-1 sm:px-2 sm:before:flex-1 ring-1 rounded ring-gray-200 bg-white">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <p className="text-sm leading-6 text-gray-900">
+        <div className="text-sm leading-6 text-gray-900">
           <span className="isolate inline-flex rounded-md shadow-sm ">
             <button
               type="button"
               className="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-[#EF3E2D] px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-white hover:bg-[#ef302d] focus:z-10"
+              onClick={() => {
+                updateCreateOrViewMailTab("createEmail");
+              }}
             >
               <EnvelopeIcon
                 className="-ml-0.5 h-5 w-5 text-white"
@@ -69,7 +75,7 @@ export default function PaddleContainer() {
               <EllipsisHorizontalIcon className="h-6 w-6 text-[#616161] " />
             </div>
           </span>
-        </p>
+        </div>
       </div>
     </div>
   );
