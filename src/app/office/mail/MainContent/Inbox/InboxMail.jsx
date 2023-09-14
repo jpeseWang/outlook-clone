@@ -1,12 +1,12 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/app/loading";
 import { CurrentTabContext } from "@/context/CurrentTabContext";
-
+import {toast} from "react-hot-toast";
 export default function InboxMail() {
   const session = useSession();
   const { updateCreateOrViewMailTab, updateEmailId } =
@@ -16,6 +16,16 @@ export default function InboxMail() {
     `/api/inbox?username=${session?.data?.email}`,
     fetcher
   );
+
+  useLayoutEffect((prev)=>{
+    if (prev !== data){
+      toast('You have a new message!', {
+        icon: '📩'
+      })
+    }
+
+  }, [data])
+ 
   const handlePreviewEmail = (e, postId) => {
     e.preventDefault();
     updateCreateOrViewMailTab("previewEmail");
@@ -24,6 +34,7 @@ export default function InboxMail() {
   if (session.status === "loading") {
     return <LoadingComponent />;
   }
+  console.log(data);
   return (
     <>
       {isLoading ? (
@@ -76,7 +87,7 @@ export default function InboxMail() {
                               }}
                             >
                               <span className="font-medium leading-none text-white">
-                                {session.data.fullname
+                                {post.sender
                                   .split(" ")
                                   .map((name) => name.charAt(0))
                                   .join("")
