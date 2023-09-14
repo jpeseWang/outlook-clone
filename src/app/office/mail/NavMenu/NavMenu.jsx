@@ -40,7 +40,7 @@ export default function NavMenu() {
                 />
                 <img
                   className="inline h-12"
-                  src="https://res-console.cloudinary.com/dnlz6urqe/thumbnails/v1/image/upload/v1694578982/YXZlX3czeXRsZQ==/as_is"
+                  src="https://res.cloudinary.com/dnlz6urqe/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1694578982/ave_w3ytle.jpg?_s=public-apps"
                 />
               </div>
 
