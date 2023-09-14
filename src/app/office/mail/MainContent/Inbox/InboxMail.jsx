@@ -17,7 +17,7 @@ export default function InboxMail() {
     fetcher
   );
 
-  useLayoutEffect((prev)=>{
+  useEffect((prev)=>{
     if (prev !== data){
       toast('You have a new message!', {
         icon: '📩'
