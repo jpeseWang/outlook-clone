@@ -13,7 +13,7 @@ export default function CreateEmail() {
   const [receiver, setReceiver] = useState("");
   const [quillLoaded, setQuillLoaded] = useState(false);
 
-  const { updateTab } = useContext(CurrentTabContext);
+  const { updateCreateOrViewMailTab } = useContext(CurrentTabContext);
   const session = useSession();
 
   let date = new Date().toUTCString().slice(5, 16);
@@ -150,10 +150,9 @@ export default function CreateEmail() {
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <button
-          type="button"
           className="text-sm font-semibold leading-6 text-gray-900"
           onClick={() => {
-            updateTab("empty");
+            updateCreateOrViewMailTab("empty");
           }}
         >
           Cancel

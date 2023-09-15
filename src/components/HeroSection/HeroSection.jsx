@@ -178,7 +178,7 @@ export default function HeroSection() {
                     customer support
                   </span>
                 </h1>
-                <p className="mx-auto mt-6 max-w-lg text-center text-xl text-indigo-200 sm:max-w-3xl">
+                <p className="mx-auto mt-6 max-w-lg text-center text-xl text-indigo-100 sm:max-w-3xl">
                   Send, receive, and manage your email. Use Outlook’s built-in
                   calendar to keep track of appointments and events.
                 </p>

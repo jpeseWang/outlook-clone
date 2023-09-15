@@ -34,7 +34,7 @@ export default function SidePanel() {
         {/* Static sidebar  */}
         <div className="fixed z-50 flex w-16 flex-col">
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-[#F0F0F0] px-6 pb-4 h-screen">
-            <nav className="flex flex-1 flex-col">
+            <nav className="flex flex-1 flex-col z-60">
               <ul role="list" className="flex flex-1 flex-col gap-y-7 mt-4">
                 <li>
                   <ul role="list" className="-mx-4 space-y-1">
@@ -68,8 +68,8 @@ export default function SidePanel() {
           </div>
         </div>
 
-        <div className="pl-12 cursor-pointer">
-          <div className="sticky top-0 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-[#FAFAFA] px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+        <div className="pl-16 cursor-pointer">
+          <div className="sticky top-0 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-[#FAFAFA] px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 z-50">
             {/* Separator */}
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             <div
@@ -86,7 +86,7 @@ export default function SidePanel() {
               </div>
             </div>
           </div>
-          <div className="sticky top-10  flex h-14 items-center gap-x-4 border-b border-gray-200 bg-white shadow-xl sm:gap-x-6 sm:px-6 lg:px-8 w-full">
+          <div className="z-50 sticky top-10  flex h-14 items-center gap-x-4 border-b border-gray-200 bg-white shadow-xl sm:gap-x-6 sm:px-6 lg:px-8 w-full">
             <PaddleContainer />
           </div>
 
