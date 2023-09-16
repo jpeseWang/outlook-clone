@@ -5,6 +5,7 @@ import {
   ArrowUturnRightIcon,
 } from "@heroicons/react/24/outline";
 import LoadingComponent from "@/app/loading";
+import ChatBox from "../../ChatBox";
 export default function ViewEmail({ params }) {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, mutate, error, isLoading } = useSWR(
@@ -74,7 +75,8 @@ export default function ViewEmail({ params }) {
             <ArrowUturnRightIcon className="h-6 w-6 inline pb-1 text-[#EF3E2D] mr-1" />
             Forward
           </button>
-        </div>
+        </div>{" "}
+        <ChatBox id={params} data={data} reload={mutate} />
       </div>
     </>
   );

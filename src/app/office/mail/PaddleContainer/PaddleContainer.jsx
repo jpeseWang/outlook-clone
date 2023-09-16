@@ -29,7 +29,7 @@ export default function PaddleContainer() {
           <span className="isolate inline-flex rounded-md shadow-sm ">
             <button
               type="button"
-              className="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-[#EF3E2D] px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-white hover:bg-[#ef302d] focus:z-10"
+              className="relative inline-flex items-center gap-x-1.5 rounded-l-md bg-[#0F6CBD] px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-white hover:bg-[#10548C] focus:z-10"
               onClick={() => {
                 updateCreateOrViewMailTab("createEmail");
               }}
@@ -42,7 +42,7 @@ export default function PaddleContainer() {
             </button>
             <button
               type="button"
-              className="cursor-pointer relative -ml-px inline-flex items-center rounded-r-md bg-[#EF3E2D] px-2 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-white hover:bg-[#ef302d] "
+              className="cursor-pointer relative -ml-px inline-flex items-center rounded-r-md bg-[#0F6CBD] px-2 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-white hover:bg-[##10548C] "
             >
               <ChevronDownIcon className="h-4 w-4 inline" />
             </button>

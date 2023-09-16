@@ -49,6 +49,7 @@ export default function CreateEmail() {
 
       // reload();
       e.target.reset();
+      setContent("");
       setUploading(false);
       onClose();
     } catch (err) {

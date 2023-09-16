@@ -26,7 +26,7 @@ export default function NavMenu() {
   return (
     <>
       {session.data && (
-        <header className="bg-[#4D5966]">
+        <header className="bg-[#116CBD] py-1">
           <nav
             className="mx-auto flex max-w-8xl items-center justify-between lg:px-8"
             aria-label="Global"
@@ -38,14 +38,10 @@ export default function NavMenu() {
                   className="h-10 inline text-white pt-1"
                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAA4VJREFUeF7tnD+PTVEUxdcu0FCIf53SJxDRiM6odD4ACVH7IioRhcQHEI2CD6BAMo1KIgqJggSFDsWWG3fkZTJ599z31hlrz1vT3v32WWf9Zt37/uycgP+kHAgpNRYDAxH7JzAQAxFzQEyOE2IgYg6IyXFCDETMATE5ToiBiDkgJscJMRAxB8TkOCEGIuaAmBwnxEDEHBCTQ09IZp4EcBvAZQC/AHwB8CQiXqy6933oeRzA23V1rrq/xddRgWTmLQD3ARzaQ9w2gK2I+DZHeJWec/a0rJYGJDOvAng+Iex9RJxrFV+lZ+t+WuqYQH4AONaw6N2IuNdQh8ws0bNlL601FCCZeRbAx8ZFX0fExanaKj2n9jH3OgvI8BB/2Lj494g4MVWbmXcAPJiqG6//t56N+prLWEBuAnjUuOrXiDg1VZuZJXpO7WPudRaQMwA+Ny7+MiIuTdVmZomeU/uYe50CZFg0M4fPG6cbBNyIiMcNdWV6tuyltYYJ5AKAV8DSWa/tiDjfKi4zS/Rs3U9LHQ3ImJKt4dMugKN7LP4MwPWI+NkibKcmM0v0nLOnZbVUICOUIwCuAbgCYHh4vwHwNCLerSo6M3v3/A3g07o6V93f4uvoQBiiNrmHgYjRNxADEXNATI4TYiBiDojJcUIMRMwBMTlOyEEHsmsg4TCAD+sOD1TpyWBLTUiVgYQeOhkwhh40IFUGEnroZMFgAykxkNBjcEIOSJWBhB46mTBoCclMDzmQyFCeIVUGEnroJHH414YFpMRAQo/BCUkg4y+FHnIg0KEkZARSYiChx+AEgQP3lrXTrcpAQg+dLCi0hCxA6T2QIDs4wYBCB8IQtck9DESMvoEYiJgDYnKcEAMRc0BMjhNiIGIOiMlxQg46kH04dUH2dAgGW2pCegwPVOnJgEH7xXD8ttcnORCo0BLSY3igSk8CB+7X7z2GB6r0ZMKg3bI85MDDQrll9RgeqNKTh+JvJxYQDzmQyFCAjO+yPORAgMIE4iEHJSBjSkqcuuAhB+5JDpRTF3adDkHpSQgI56HOEOIexHdZNpPnAO2hzpO02Z0MRIy/gRiImANicpwQAxFzQEyOE2IgYg6IyXFCDETMATE5ToiBiDkgJscJMRAxB8TkOCEGIuaAmBwnxEDEHBCT44QYiJgDYnKcEAMRc0BMjhNiIGIOiMlxQgxEzAExOU6IGJA/LeFIg3RGC4YAAAAASUVORK5CYII="
                 />
-                <img
-                  className="inline h-12"
-                  src="https://res.cloudinary.com/dnlz6urqe/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1694578982/ave_w3ytle.jpg?_s=public-apps"
-                />
               </div>
 
               <span
-                className="font-semibold text-lg cursor-pointer text-white pt-3 pl-6 sm:pl-9"
+                className="font-semibold text-lg cursor-pointer text-white pt-2 pl-6 sm:pl-9"
                 onClick={() => {
                   router.push("/");
                 }}
@@ -80,10 +76,10 @@ export default function NavMenu() {
               </span>
             </div>
             <Popover.Group className="hidden lg:flex lg:gap-x-6 relative pl-2">
-              <MagnifyingGlassIcon className="h-5 w-5 absolute text-gray-700 pt-1" />
+              <MagnifyingGlassIcon className="h-5 w-5 absolute text-gray-700 mt-1 ml-1" />
               <input
                 type="text"
-                className="inline pl-6 rounded placeholder:font-light placeholder:text-gray-800 placeholder:text-sm px-10"
+                className="py-1 inline pl-10 rounded placeholder:font-light placeholder:text-gray-800 placeholder:text-sm px-16"
                 placeholder="Search"
               />
               <VideoCameraIcon className="h-6 w-6 text-white" />

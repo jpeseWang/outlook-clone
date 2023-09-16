@@ -1,6 +1,11 @@
 "use client";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
+
+import {
+  ArchiveBoxArrowDownIcon,
+  EnvelopeIcon,
+} from "@heroicons/react/24/outline";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -27,8 +32,7 @@ export default function InboxMail() {
       data?.filter((p) => p.receiver === session.data.email).length
     );
     if (
-      data?.filter((p) => p.receiver === session.data.email).length !==
-      prevLength
+      data?.filter((p) => p.receiver === session.data.email).length > prevLength
     ) {
       toast("You have a new message!", {
         icon: "📩",
@@ -119,7 +123,7 @@ export default function InboxMail() {
                                   {post.authorFullname}
                                 </a>
                               </p>
-                              <span className=" text-lg font-semibold leading-6 text-[#EF3E2D] group-hover:text-gray-600">
+                              <span className=" text-lg font-semibold leading-6 text-[#EF3E2D] group-hover:text-gray-600 cursor-pointer">
                                 <a href={post.href}>
                                   <span className="absolute inset-0" />
                                   {post.subject}
@@ -138,6 +142,23 @@ export default function InboxMail() {
                               </div>
                             </span>
                           </div>
+                        </div>
+                        <div className=" flex ml-auto">
+                          <span
+                            className={`inline-flex h-10 w-10 items-center justify-center rounded-full mx-2 hover:text-blue-400 hover:bg-blue-100 cursor-pointer`}
+                            onClick={() => handleDelete(post._id, post.subject)}
+                          >
+                            <div>
+                              <EnvelopeIcon className="h-5 w-5 flex-end" />
+                            </div>
+                          </span>
+                          <span
+                            className={`inline-flex h-10 w-10 items-center justify-center rounded-full  hover:text-yellow-600 hover:bg-yellow-100 cursor-pointer`}
+                          >
+                            <div>
+                              <ArchiveBoxArrowDownIcon className="h-5 w-5 flex-end " />
+                            </div>
+                          </span>
                         </div>
                       </article>
                     ))}

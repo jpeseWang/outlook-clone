@@ -52,8 +52,8 @@ export default function SidePanel() {
                           <item.icon
                             className={classNames(
                               item.current
-                                ? "text-[#EF3E2D]"
-                                : "text-[#F242424] group-hover:text-[#EF3E2D] hover:bg-gray-50",
+                                ? "text-[#0F6CBD]"
+                                : "text-[#F242424] group-hover:text-[#0F6CBD] hover:bg-gray-50",
                               "h-6 w-6 shrink-0"
                             )}
                             aria-hidden="true"
@@ -68,7 +68,7 @@ export default function SidePanel() {
           </div>
         </div>
 
-        <div className="pl-16 cursor-pointer">
+        <div className="pl-16">
           <div className="sticky top-0 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-[#FAFAFA] px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 z-50">
             {/* Separator */}
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
