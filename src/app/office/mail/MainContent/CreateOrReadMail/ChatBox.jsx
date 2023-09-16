@@ -43,7 +43,7 @@ export default function ChatBox({ id, data, reload }) {
   };
 
   return (
-    <form className="bg-[#272A37] rounded-lg my-6" onSubmit={handleSubmit}>
+    <form className="bg-[#272A37] rounded-lg my-6 " onSubmit={handleSubmit}>
       <div className="title mx-4 py-2">
         <span className="text-white">USER</span>
         <p className="text-sm text-gray-400">
@@ -51,7 +51,7 @@ export default function ChatBox({ id, data, reload }) {
           <span className="mr-1 font-bold text-xl text-green-500">•</span>Online
         </p>
       </div>
-      <div className="text area bg-[#323644] rounded-lg text-gray-100 shadow-xl overflow-y-auto">
+      <div className="text-area bg-[#323644] rounded-lg text-gray-100 shadow-xl h-96 overflow-y-scroll">
         {data.comment &&
           data.comment.slice().map((mess, index) => (
             <div key={index} className="my-4 mx-2">
@@ -96,22 +96,6 @@ export default function ChatBox({ id, data, reload }) {
                   </p>
                 </div>
               )}
-              {/* <div className="inbox flex py-1">
-                  {" "}
-                  <span
-                    className={`inline-flex h-10 w-10 items-center justify-center rounded-full mx-2 mt-2`}
-                    style={{ backgroundColor: `${mess.avatar}` }}
-                  >
-                    <span className="font-medium leading-none text-white">
-                      {mess.name
-                        .split(" ")
-                        .map((name) => name.charAt(0))
-                        .join("")
-                        .toUpperCase()}
-                    </span>
-                  </span>
-                  <p className=" py-4"> {mess.content}</p>
-                </div> */}
             </div>
           ))}
       </div>
