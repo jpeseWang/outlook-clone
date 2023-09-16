@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const inboxSchema = new Schema(
+const emailSchema = new Schema(
   {
     sender: {
       type: String,
@@ -62,4 +62,4 @@ const inboxSchema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.Inbox || mongoose.model("Inbox", inboxSchema);
+export default mongoose.models.Email || mongoose.model("Email", emailSchema);
